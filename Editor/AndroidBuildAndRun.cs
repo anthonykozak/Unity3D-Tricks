@@ -22,8 +22,8 @@ public class AndroidBuildAndRun
 	public static void InstallAndroid()
 	{
 		// Run the game (Process class from System.Diagnostics).
-		string fullPath = Application.dataPath.Replace("/Assets", "/") + "_BUILDS/android/build.apk"; 
-		proc = new System.Diagnostics.Process();
+		string fullPath = Application.dataPath.Replace("/Assets", "/") + "_BUILDS/android/build.apk";
+		Process proc = new System.Diagnostics.Process();
 		proc.StartInfo.FileName = "D:/SDK/android/sdk/platform-tools/adb.exe"; // replace with your adb exe path
 		proc.StartInfo.Arguments = "-d install -r " + fullPath;
 		proc.Start();
@@ -36,7 +36,7 @@ public class AndroidBuildAndRun
 		// Run the game (Process class from System.Diagnostics).
 		string fullPath = Application.dataPath.Replace("/Assets", "/") + "_BUILDS/android/build.apk";
 		string appid = PlayerSettings.bundleIdentifier;
-		proc = new System.Diagnostics.Process();
+		Process proc = new System.Diagnostics.Process();
 		proc.StartInfo.FileName = "D:/SDK/android/sdk/platform-tools/adb.exe"; // replace with your adb exe path
 		proc.StartInfo.Arguments = "shell am start -n " + appid + "/com.unity3d.player.UnityPlayerNativeActivity"; 
 		proc.Start();
