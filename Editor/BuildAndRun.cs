@@ -1,8 +1,4 @@
-﻿/**
-	@author : Anthony KOZAK :: exoa.fr
-	@description : Build and RUn your desktop release using code.
-**/
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -11,7 +7,7 @@ public class BuildAndRun
 {
 	private static string[] allScenes;
 
-	[MenuItem("Exoa/Tools/Build And Run Exe %&b")]
+	[MenuItem("Exoa/Build/Build And Run Exe %&b")]
 	public static void BuildGame()
 	{
 		GatherSceneInfo();
@@ -22,7 +18,7 @@ public class BuildAndRun
 		BuildPipeline.BuildPlayer(allScenes, fullPath, BuildTarget.StandaloneWindows, BuildOptions.None);
 		RunGame();
 	}
-	[MenuItem("Exoa/Tools/Run Exe %&r")]
+	[MenuItem("Exoa/Build/Run Exe %&r")]
 	public static void RunGame()
 	{
 		string fullPath = Application.dataPath.Replace("/Assets", "/") + "_BUILDS/win/build.exe";
