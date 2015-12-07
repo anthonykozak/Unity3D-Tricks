@@ -1,9 +1,10 @@
 #!/usr/bin/perl
 use File::Copy;
 use File::Find;
+use File::Path;
 use Cwd;
 
-# Exoa SignAndPackage script v1.1
+# Exoa SignAndPackage script v1.3
 # Author : Anthony Kozak :: exoa.fr
 # Place this script in the same folder as the generated .app file from Unity
 # YOU WOULD NEED IN THIS DIRECTOY:
@@ -27,7 +28,7 @@ my $packagePath = getcwd . "/".$appType."/".$appName.".pkg";
 
 
 
-my $profile = ask("What's the provision profile name to use in this directory ?","profile.provisionprofile");
+#my $profile = ask("What's the provision profile name to use in this directory ?","profile.provisionprofile");
 my $doCodeSigning = ask("Sign the app ?", "true");
 my $doCreatePackage = ask("Generate package ?","true");
 my $copyInfopList = ask("Copy Info.plist from this directory inside the .app ?","true");
@@ -55,6 +56,9 @@ logit("*** Starting Process - Building at '$appPath' ***");
 # src and dest are temp variables. Just ignore them... :-)
 my $src = "";
 my $dest = "";
+
+# Removing previous dir
+rmtree $appType;
 
 # Creating target dir
 mkdir $appType, 0755;
@@ -85,19 +89,16 @@ if($copyIcon eq "true")
     copy($playericon, $dest) or die "File can not be copied: " . $playericon;
 }
 # this copies $profile to your generated game 
-$src = getcwd . $srcAssetPath . $profile;
-$dest = $appPath . "/Contents/embedded.provisionprofile";
-print ("\n*** Copying " . getShort($src) . " to " . getShort($dest));
-copy($src, $dest) or die "File can not be copied: " . $src;
+#$src = getcwd . $srcAssetPath . $profile;
+#$dest = $appPath . "/Contents/embedded.provisionprofile";
+#print ("\n*** Copying " . getShort($src) . " to " . getShort($dest));
+#copy($src, $dest) or die "File can not be copied: " . $src;
 
 # this copies appPath to appPathSigned and use it
 print ("\n*** Copying " . getShort($appPath) . " to " . getShort($appPathSigned));
 system("cp -r \"".$appPath."\" \"".$appPathSigned."\"");
 
-#fail safe check: If accidentially signing is set to false, but packaging set to true, signing is turned on to create a valid package.
-if ($doCreatePackage eq "true") {
-	$doCodeSigning = true;
-}
+
 
 ## Chmod and remove unecessary files
 system("/bin/chmod -R a+rwx \"$appPathSigned\"");
